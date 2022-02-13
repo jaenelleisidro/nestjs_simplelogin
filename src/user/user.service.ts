@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDao } from './user.dao';
 import { User } from './schema/user.schema';
+import HelperUtils from 'src/others/utils/helper.utils';
+import EncryptionUtils from 'src/others/utils/encryption.utils';
 /**
  * Represents the business logic for users.
  * @constructor
@@ -9,7 +11,11 @@ import { User } from './schema/user.schema';
  */
 @Injectable()
 export class UserService {
-  constructor(private readonly userDao: UserDao) {}
+  constructor(
+    private readonly userDao: UserDao,
+    private readonly encryptionUtils: EncryptionUtils
+    
+    ) {}
 
   /**
    * validates a username and password, if there's a match returns the user
@@ -21,6 +27,8 @@ export class UserService {
     username: string,
     password: string,
   ): Promise<User | undefined> {
+    password = await this.encryptionUtils.oneWayEncrypt(password);
+
     return this.userDao.findOneByUsernameAndPassword(username, password);
   }
 
@@ -30,6 +38,15 @@ export class UserService {
    * @return {User} The data of the db
    **/
   async create(createUserDto: CreateUserDto): Promise<User> {
+    let {username="",password=""}=createUserDto;
+    if(HelperUtils.isUserNameValid(username)==false){
+      throw new Error("Invalid Username:"+username);
+    }
+    if(HelperUtils.isPasswordValid(password)==false){
+      throw new Error("Invalid Password:"+password);
+    }
+    createUserDto.password = await this.encryptionUtils.oneWayEncrypt(createUserDto.password);
+
     return await this.userDao.create(createUserDto);
   }
 
