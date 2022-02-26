@@ -26,3 +26,11 @@ docker-compose build
 
 run horizontal scaled
 docker-compose up --scale node_service=5
+
+scaling tutorial
+https://pspdfkit.com/blog/2018/how-to-use-docker-compose-to-run-multiple-instances-of-a-service-in-development/
+https://levelup.gitconnected.com/load-balance-and-scale-node-js-containers-with-nginx-and-docker-swarm-9fc97c3cff81
+
+prod staging dev in docker
+https://dev.to/erezhod/setting-up-a-nestjs-project-with-docker-for-back-end-development-30lg
+
