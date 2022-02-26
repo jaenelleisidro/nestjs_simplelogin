@@ -1,0 +1,16 @@
+version: '3'
+services:
+  node_service:
+    build:
+      context: ./
+    container_name: node_container
+    hostname: node_host
+    ports:
+      - "3000:3000"
+    networks:
+      - example-net
+    environment:
+      SIMPLELOGIN_MONGODB_URI : mongodb://172.17.0.1:27017/simplelogin
+networks:
+  example-net:
+    external: true

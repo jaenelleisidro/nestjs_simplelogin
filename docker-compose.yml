@@ -1,9 +1,39 @@
-version: "3"
+version: '3'
 
 services:
-  mongodb:
-    image: mongo:latest
-    environment:
-      - MONGODB_DATABASE="test"
-    ports:
-      - 27017:27017
+
+    node_service:
+        build:
+          context: ./node
+        hostname: node_host
+        ports:
+            - 3000 
+        networks:
+            - example-net
+        depends_on:
+            - mongo_service
+    mongo_service:
+        container_name: mongo_container
+        hostname: mongo_host
+        image: mongo
+        volumes:
+            - ./mongo/data:/data/db
+        ports:
+            - "27017:27017" 
+        networks:
+            - example-net 
+    nginx_service:
+        build:
+          context: ./nginx
+        container_name: nginx_container
+        hostname: nginx_host
+        ports:
+            - "80:80" 
+        depends_on:
+            - node_service
+        networks:
+            - example-net
+
+networks:
+  example-net:
+    external: true

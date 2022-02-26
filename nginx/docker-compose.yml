@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nginx_service:
+    build:
+      context: ./
+    container_name: nginx_container
+    hostname: nginx_host
+    ports:
+        - "80:80" 
+    networks:
+        - example-net
+networks:
+  example-net:
+    external: true
