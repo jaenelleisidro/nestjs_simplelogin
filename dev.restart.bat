@@ -1,4 +1,3 @@
-docker-compose down
-docker-compose build
-docker-compose up --scale node_service=2
+call dev.stop.bat
+call dev.start.bat
 pause

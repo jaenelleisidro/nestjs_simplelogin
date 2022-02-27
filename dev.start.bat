@@ -1,3 +1,3 @@
+call createnetwork.bat
 docker-compose build
-docker-compose up --scale node_service=2
-pause
+docker-compose up --build --remove-orphans -d --scale node_service=2

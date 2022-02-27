@@ -1,4 +1,3 @@
-docker-compose -f docker-compose.prod.yml down
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d --scale node_service=5
+call prod.stop.bat
+call prod.start.bat
 pause
