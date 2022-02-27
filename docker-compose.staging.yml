@@ -1,0 +1,44 @@
+version: '3'
+services:
+    node_service:
+        build:
+            context: ./node
+            dockerfile: dockerfile.staging          
+        hostname: node_host
+        ports:
+            - 3000 
+        networks:
+            - example-net
+        depends_on:
+            - mongo_service
+        environment:
+            NODE_ENV : staging
+            SIMPLELOGIN_JWT_SECRET : secretKey
+            SIMPLELOGIN_JWT_EXPIRESIN : 24h
+            SIMPLELOGIN_BCRYPT_SALT : $$2b$$10$$UqELXfQTOAdhqAO33dWJBO
+            SIMPLELOGIN_MONGODB_URI : mongodb://mongo_host:27017/simplelogin
+            SIMPLELOGIN_SERVER_PORT : 3000
+    mongo_service:
+        container_name: mongo_container
+        hostname: mongo_host
+        image: mongo
+        volumes:
+            - ./mongo/data:/data/db
+        ports:
+            - "27017:27017" 
+        networks:
+            - example-net 
+    nginx_service:
+        build:
+          context: ./nginx
+        container_name: nginx_container
+        hostname: nginx_host
+        ports:
+            - "80:80" 
+        depends_on:
+            - node_service
+        networks:
+            - example-net
+networks:
+  example-net:
+    external: true

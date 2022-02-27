@@ -2,6 +2,7 @@ FROM node:12.19.0-alpine3.9
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install glob rimraf
+#--only=production because we want to imitate prod server as much as possible in staging
 RUN npm install --only=production
 COPY . .
 RUN npm run build
