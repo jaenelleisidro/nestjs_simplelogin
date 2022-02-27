@@ -16,6 +16,6 @@ export class AppController {
   getWelcome() {
     let message=this.appService.getWelcome();
     let instanceId=this.id;
-    return {message,instanceId,pid:process.pid,constant:{BCRYPT:Constant.BCRYPT,JWT:Constant.JWT,MONGODB:Constant.MONGODB,SERVER:Constant.SERVER,serverStart:this.serverStart}};
+    return {message,instanceId,pid:process.pid,constant:{BCRYPT:Constant.BCRYPT,JWT:Constant.JWT,MONGODB:Constant.MONGODB,SERVER:Constant.SERVER,NODE:Constant.NODE,serverStart:this.serverStart}};
   }
 }

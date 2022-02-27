@@ -14,6 +14,7 @@ services:
         depends_on:
             - mongo_service
         environment:
+            NODE_ENV : development
             SIMPLELOGIN_JWT_SECRET : secretKey
             SIMPLELOGIN_JWT_EXPIRESIN : 24h
             SIMPLELOGIN_BCRYPT_SALT : $$2b$$10$$UqELXfQTOAdhqAO33dWJBO
